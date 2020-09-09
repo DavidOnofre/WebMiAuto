@@ -19,6 +19,16 @@ function registrar() {
     firebase.auth().createUserWithEmailAndPassword(txtEmail, txtPassword)
         .then(function () {
             verificar();
+
+            contenido.innerHTML = ` 
+            <div class="container mt-5">
+                <div class="alert alert-success" role="alert">
+                <button class = "close" data-dismiss = "alert">  <span>&times;</span> </button>
+                Usuario creado correctamente, <strong>revise su correo.</strong>
+                </div>
+            </div>
+            `;
+
         })
 
         .catch(function (error) {
@@ -43,8 +53,18 @@ function ingresar() {
             // Manejar errores aquí.
             var errorCode = error.code;
             var errorMessage = error.message;
-            console.log(errorCode);
-            console.log(errorMessage);
+            console.log('codigo ' + errorCode);
+            console.log('mensaje '+ errorMessage);
+
+            contenido.innerHTML = ` 
+            <div class="container mt-5">
+                <div class="alert alert-danger" role="alert">
+                <button class = "close" data-dismiss = "alert">  <span>&times;</span> </button>
+                ` + errorMessage + `
+                </div>
+            </div>
+            `;
+
         });
 };
 

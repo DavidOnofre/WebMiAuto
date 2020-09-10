@@ -47,12 +47,14 @@ function ingresar() {
     const txtEmail = document.getElementById('txtEmail').value;
     const txtPassword = document.getElementById('txtPassword').value;
 
+    
     firebase.auth().signInWithEmailAndPassword(txtEmail, txtPassword)
         .catch(function (error) {
 
             // Manejar errores aquí.
             var errorCode = error.code;
             var errorMessage = error.message;
+  
             console.log('codigo ' + errorCode);
             console.log('mensaje '+ errorMessage);
 

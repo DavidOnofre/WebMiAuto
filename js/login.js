@@ -41,6 +41,20 @@ function registrar() {
         });
 };
 
+function verificar() {
+    var user = firebase.auth().currentUser;
+
+    user.sendEmailVerification()
+        .then(function () {
+            // Enviando correo.
+            console.log('Enviando correo ...');
+
+        }).catch(function (error) {
+            // Error al enviar mensaje.
+            console.log(error);
+        });
+};
+
 function ingresar() {
 
     //Obtener elementos
@@ -114,21 +128,9 @@ function salir() {
         })
 };
 
-function verificar() {
-    var user = firebase.auth().currentUser;
 
-    user.sendEmailVerification()
-        .then(function () {
-            // Enviando correo.
-            console.log('Enviando correo ...');
-
-        }).catch(function (error) {
-            // Error al enviar mensaje.
-            console.log(error);
-        });
-};
 
 function irMenu() {
-    location.href = './menu.html'
+    location.href = './index.html'
 };
 

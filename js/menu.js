@@ -30,17 +30,6 @@ function aparece(user) {
     }
 };
 
-function salir() {
-    firebase.auth().signOut()
-        .then(function () {
-            console.log('Saliendo ...');
-            location.href = './login.html'
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-};
-
 function noLogeado() {
     var obj1 = document.getElementById("obj1");
     var obj2 = document.getElementById("obj2");
@@ -57,4 +46,15 @@ function logeado(email) {
     bienvenido.innerHTML = "Bienvenido! " + email + "&nbsp";
     obj1.style.display = 'block';
     obj2.style.display = 'none';
+};
+
+function salir() {
+    firebase.auth().signOut()
+        .then(function () {
+            console.log('Saliendo ...');
+            location.href = './login.html'
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
 };

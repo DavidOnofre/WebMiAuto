@@ -8,7 +8,7 @@
 </head>
 
 <body>
-  <nav class="navbar bg-success">
+  <nav class="navbar bg-dark">
     <ul class="list-inline">
       <li class="list-inline-item">
         <h3 class="text-white">Web MiAuto</h3>
@@ -34,16 +34,17 @@
             </div>
 
             <div class="form-group">
-              <button onclick="ingresar()" class="btn btn-success">
+              <button onclick="ingresar()" class="btn btn-dark">
                 <i class="fas fa-sign-in-alt size-fas"></i>
                 Ingresar
               </button>
-              <button type="button" id="btnRegistrar" class="btn btn-success" data-toggle="modal"
+              <button type="button" id="btnRegistrar" class="btn btn-dark" data-toggle="modal"
                 data-target="#exampleModal">
                 <i class="fas fa-address-book size-fas"></i>
                 Registrarse
               </button>
             </div>
+
           </div>
         </div>
       </div>
@@ -57,7 +58,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Registrar Nuevo Usuario</h5>
-         
+
         </div>
         <div class="modal-body">
           <input type="email" id="txtEmailRegistrar" placeholder="Email" class="form-control">
@@ -65,8 +66,9 @@
           <input type="password" id="txtPasswordRegistrar" placeholder="Contrase&ntilde;a" class="form-control">
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar</button>
-          <button id="btnSignUp" onclick="registrar()" type="button" class="btn btn-success" data-dismiss="modal">Guardar</button>
+          <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+          <button id="btnSignUp" onclick="registrar()" type="button" class="btn btn-dark"
+            data-dismiss="modal">Guardar</button>
         </div>
       </div>
     </div>

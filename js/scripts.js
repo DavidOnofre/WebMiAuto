@@ -55,6 +55,10 @@
     $(window).scroll(navbarCollapse);
 })(jQuery); // End of use strict
 
+
+
+//Integración Firebase.
+
 var firebaseConfig = {
     apiKey: "AIzaSyBg4qE5EwlqiQ9JkYzXfeGhcASASPmbl4E",
     authDomain: "miauto-ef21e.firebaseapp.com",
@@ -71,15 +75,17 @@ function observador() {
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
             // Usuario activo
+            console.log('Existe usuario activo');
+            console.log('*************************');
+            console.log(user.emailVerified);
+            console.log('*************************');
             aparece(user);
         } else {
-            // Usuario no logeado
+            console.log('No existe usuario activo');
             noLogeado();
         }
     });
 };
-
-observador();
 
 function aparece(user) {
     var user = user;
@@ -95,6 +101,8 @@ function noLogeado() {
     obj1.style.display = 'none';
     obj2.style.display = 'block';
 };
+
+observador();
 
 function logeado(email) {
     var obj1 = document.getElementById("obj1");
@@ -116,12 +124,6 @@ function salir() {
             console.log(error);
         })
 };
-
-
-
-
-
-
 
 var bandera = true; //editar
 
@@ -181,13 +183,14 @@ function insertTask() {
         alert("Agregado Exitosamente")
     } else {
         alert("Editado Exitosamente")
-        refrescar();
+        location.reload();
     }
 };
 
-function table(uid, nombre, apellido, correo, telefono) {
+function tablaClientes(uid, nombre, apellido, correo, telefono) {
 
     return '<tr>' +
+        '<td>' + uid + '</td>' +
         '<td>' + nombre + '</td>' +
         '<td>' + apellido + '</td>' +
         '<td>' + correo + '</td>' +
@@ -199,12 +202,36 @@ function table(uid, nombre, apellido, correo, telefono) {
         '</tr>';
 };
 
-function watchTask() {
+function tablaVehiculos(uid, nombre, apellido, placa, marca, modelo, kilometraje) {
+
+    return '<tr>' +
+        '<td>' + uid + '</td>' +
+        '<td>' + nombre + '</td>' +
+        '<td>' + apellido + '</td>' +
+        '<td>' + placa + '</td>' +
+        '<td>' + marca + '</td>' +
+        '<td>' + modelo + '</td>' +
+        '<td>' + kilometraje + '</td>' +
+        '</tr>';
+};
+
+function cargarClientes() {
     var task = firebase.database().ref("Persona/");
     task.on("child_added", function (data) {
         var taskValue = data.val();
-        var result = table(taskValue.uid, taskValue.nombre, taskValue.apellido, taskValue.correo, taskValue.telefono);
-        innerHTML("loadTask", result);
+        var result = tablaClientes(taskValue.uid, taskValue.nombre, taskValue.apellido, taskValue.correo, taskValue.telefono);
+        innerHTML("tbodyClientes", result);
+    });
+
+    cargarVehiculos();
+};
+
+function cargarVehiculos() {
+    var task = firebase.database().ref("Persona/");
+    task.on("child_added", function (data) {
+        var taskValue = data.val();
+        var result = tablaVehiculos(taskValue.uid, taskValue.nombre, taskValue.apellido, taskValue.auto.placa, taskValue.auto.marca, taskValue.auto.modelo, taskValue.auto.kilometraje);
+        innerHTML("tbodyVehiculos", result);
     });
 };
 
@@ -227,61 +254,4 @@ function remove(uid) {
     var task = firebase.database().ref("Persona/" + uid);
     task.remove();
     location.reload();
-};
-
-function observador() {
-    firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-            // Usuario activo
-            console.log('Existe usuario activo');
-            console.log('*************************');
-            console.log(user.emailVerified);
-            console.log('*************************');
-            aparece(user);
-        } else {
-            console.log('No existe usuario activo');
-            noLogeado();
-        }
-    });
-};
-observador();
-
-function aparece(user) {
-    var user = user;
-    if (user.emailVerified) {
-        logeado(user.email);
-    }
-};
-
-function salir() {
-    firebase.auth().signOut()
-        .then(function () {
-            console.log('Saliendo ...');
-            location.href = './login.html'
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-};
-
-function noLogeado() {
-    var obj1 = document.getElementById("obj1");
-    var obj2 = document.getElementById("obj2");
-
-    obj1.style.display = 'none';
-    obj2.style.display = 'block';
-};
-
-function logeado(email) {
-    var obj1 = document.getElementById("obj1");
-    var obj2 = document.getElementById("obj2");
-    var bienvenido = document.getElementById("bienvenido");
-
-    bienvenido.innerHTML = "Bienvenido! " + email + "&nbsp";
-    obj1.style.display = 'block';
-    obj2.style.display = 'none';
-};
-
-function refrescar() {
-    location.href = './index.html'
 };

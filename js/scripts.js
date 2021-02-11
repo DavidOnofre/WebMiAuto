@@ -139,7 +139,7 @@ function inputsTask(uid, result) {
     return document.getElementById(uid).value = result;
 };
 
-function arrayJson(uid, nombre, apellido, correo, telefono, kilometraje, marca, modelo, placa) {
+function arrayJson(uid, nombre, apellido, correo, telefono, placa, marca, modelo, kilometraje) {
     var data = {
         uid: uid,
         nombre: nombre,
@@ -147,10 +147,10 @@ function arrayJson(uid, nombre, apellido, correo, telefono, kilometraje, marca, 
         correo: correo,
         telefono: telefono,
         auto: {
-            kilometraje: kilometraje,
+            placa: placa,
             marca: marca,
             modelo: modelo,
-            placa: placa,
+            kilometraje: kilometraje
         }
     };
     return data;
@@ -164,11 +164,16 @@ function insertTask() {
     var correo = getID("correo");
     var telefono = getID("telefono");
 
-    if (uid.length == 0 || nombre.length == 0 || apellido.length == 0 || correo.length == 0 || telefono.length == 0) {
+    var placa = getID("placa");
+    var marca = getID("marca");
+    var modelo = getID("modelo");
+    var kilometraje = getID("kilometraje");
+
+    if (uid.length == 0 || nombre.length == 0 || apellido.length == 0 || correo.length == 0 || telefono.length == 0 || placa.length == 0 || marca.length == 0 || modelo.length == 0 || kilometraje.length == 0) {
         alert("Campos vac&iacute;os");
     } else {
 
-        var arrayData = arrayJson(uid, nombre, apellido, correo, telefono, "kilometraje", "marca", "modelo", "placa");
+        var arrayData = arrayJson(uid, nombre, apellido, correo, telefono, placa, marca, modelo, kilometraje);
         var task = firebase.database().ref("Persona/" + uid);
         task.set(arrayData);
 
@@ -177,6 +182,12 @@ function insertTask() {
         inputsTask("apellido", "");
         inputsTask("correo", "");
         inputsTask("telefono", "");
+
+        inputsTask("placa", "");
+        inputsTask("marca", "");
+        inputsTask("modelo", "");
+        inputsTask("kilometraje", "");
+
     }
 
     if (bandera) {
@@ -255,3 +266,8 @@ function remove(uid) {
     task.remove();
     location.reload();
 };
+
+// Material Select Initialization
+$(document).ready(function() {
+    $('.mdb-select').materialSelect();
+    });

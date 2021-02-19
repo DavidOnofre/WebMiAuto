@@ -198,7 +198,7 @@ function insertTask() {
     }
 };
 
-function tablaClientes(uid, nombre, apellido, correo, telefono) {
+function tablaClientes(uid, nombre, apellido, correo, telefono, placa, marca, modelo, kilometraje) {
 
     return '<tr>' +
         '<td>' + uid + '</td>' +
@@ -207,7 +207,7 @@ function tablaClientes(uid, nombre, apellido, correo, telefono) {
         '<td>' + correo + '</td>' +
         '<td>' + telefono + '</td>' +
         '<td><i class="fas fa-edit size-fas"' +
-        ' onclick = "editTask(' + '\'' + uid + '\'' + ', ' + '\'' + nombre + '\'' + ' , ' + '\'' + apellido + '\'' + ' , ' + '\'' + correo + '\'' + ' , ' + '\'' + telefono + '\'' + ')">' +
+        ' onclick = "editTask(' + '\'' + uid + '\'' + ',' + '\'' + nombre + '\'' + ' ,' + '\'' + apellido + '\'' + ' ,' + '\'' + correo + '\'' + ' ,' + '\'' + telefono + '\'' + ' ,' + '\'' + placa + '\'' + ' ,' + '\'' + marca + '\'' + ' ,' + '\'' + modelo + '\'' + ' ,' + '\'' + kilometraje + '\'' + ')">' +
         '</i></td>' +
         '<td><i class="fas fa-trash-alt size-fas" onclick="remove(' + '\'' + uid + '\'' + ')"></i></td>' +
         '</tr>';
@@ -230,7 +230,7 @@ function cargarClientes() {
     var task = firebase.database().ref("Persona/");
     task.on("child_added", function (data) {
         var taskValue = data.val();
-        var result = tablaClientes(taskValue.uid, taskValue.nombre, taskValue.apellido, taskValue.correo, taskValue.telefono);
+        var result = tablaClientes(taskValue.uid, taskValue.nombre, taskValue.apellido, taskValue.correo, taskValue.telefono, taskValue.auto.placa, taskValue.auto.marca, taskValue.auto.modelo, taskValue.auto.kilometraje);
         innerHTML("tbodyClientes", result);
     });
 
@@ -246,7 +246,7 @@ function cargarVehiculos() {
     });
 };
 
-function editTask(uid, nombre, apellido, correo, telefono) {
+function editTask(uid, nombre, apellido, correo, telefono, placa, marca, modelo, kilometraje) {
 
     var boton = document.getElementById("boton");
     boton.innerHTML = 'Editar';
@@ -259,6 +259,11 @@ function editTask(uid, nombre, apellido, correo, telefono) {
     inputsTask("correo", correo);
     inputsTask("telefono", telefono);
 
+    inputsTask("placa", placa);
+    inputsTask("marca", marca);
+    inputsTask("modelo", modelo);
+    inputsTask("kilometraje", kilometraje);
+
 };
 
 function remove(uid) {
@@ -267,7 +272,61 @@ function remove(uid) {
     location.reload();
 };
 
-// Material Select Initialization
-$(document).ready(function() {
-    $('.mdb-select').materialSelect();
+//combos depedientes
+var Chevrolet = [
+    { display: "Aveo", value: "Aveo" },
+    { display: "Grand Vitara", value: "Grand Vitara" },
+    { display: "Sail", value: "Sail" }];
+
+var Kia = [
+    { display: "Picanto", value: "Picanto" },
+    { display: "Sportage r", value: "Sportage r" },
+    { display: "Rio", value: "Rio" }];
+
+var Hyundai = [
+    { display: "Tucson", value: "Tucson" },
+    { display: "Santa Fe", value: "Santa Fe" },
+    { display: "i10", value: "i10" }];
+
+var Mazda = [
+    { display: "Cx-3", value: "Cx-3" },
+    { display: "bt-50", value: "bt-50" },
+    { display: "Allegro", value: "Allegro" }];
+
+var Toyota = [
+    { display: "Rav 4", value: "Rav 4" },
+    { display: "Corola", value: "Corola" },
+    { display: "Fortuner", value: "Fortuner" }];
+
+// Aqui verificamos dependncia
+$("#marca").change(function () {
+    var parent = $(this).val();
+    switch (parent) {
+        case 'Chevrolet':
+            list(Chevrolet);
+            break;
+        case 'Kia':
+            list(Kia);
+            break;
+        case 'Hyundai':
+            list(Hyundai);
+            break;
+        case 'Mazda':
+            list(Mazda);
+            break;
+        case 'Toyota':
+            list(Toyota);
+            break;
+    }
+});
+
+//function to populate child select box
+function list(array_list) {
+    $("#modelo").html(""); //reset child options
+    $(array_list).each(function (i) { //populate child options
+        $("#modelo").append("<option value=\"" + array_list[i].value + "\">" + array_list[i].display + "</option>");
     });
+    $("#aqui").addClass('hidden');
+    $(".box--oculto").removeClass('hidden');
+}
+

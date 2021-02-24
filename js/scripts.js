@@ -139,7 +139,7 @@ function inputsTask(uid, result) {
     return document.getElementById(uid).value = result;
 };
 
-function arrayJson(uid, nombre, apellido, correo, telefono, placa, marca, modelo, kilometraje) {
+function arrayJson(uid, nombre, apellido, correo, telefono, placa, marca, modelo, kilometraje, tipoMantenimiento, observaciones, fechakilometraje, gastos) {
     var data = {
         uid: uid,
         nombre: nombre,
@@ -151,6 +151,12 @@ function arrayJson(uid, nombre, apellido, correo, telefono, placa, marca, modelo
             marca: marca,
             modelo: modelo,
             kilometraje: kilometraje
+        },
+        mantenimiento: {
+            tipoMantenimiento: tipoMantenimiento,
+            observaciones: observaciones,
+            fechakilometraje: fechakilometraje,
+            gastos: gastos
         }
     };
     return data;
@@ -173,7 +179,7 @@ function insertTask() {
         alert("Campos vac&iacute;os");
     } else {
 
-        var arrayData = arrayJson(uid, nombre, apellido, correo, telefono, placa, marca, modelo, kilometraje);
+        var arrayData = arrayJson(uid, nombre, apellido, correo, telefono, placa, marca, modelo, kilometraje, "tipoMantenimiento", "observaciones", "fechakilometraje", "gastos");
         var task = firebase.database().ref("Persona/" + uid);
         task.set(arrayData);
 
@@ -187,6 +193,11 @@ function insertTask() {
         inputsTask("marca", "");
         inputsTask("modelo", "");
         inputsTask("kilometraje", "");
+
+        inputsTask("tipoMantenimiento", "");
+        inputsTask("observaciones", "");
+        inputsTask("fechakilometraje", "");
+        inputsTask("gastos", "");
 
     }
 
@@ -206,6 +217,10 @@ function tablaClientes(uid, nombre, apellido, correo, telefono, placa, marca, mo
         '<td>' + apellido + '</td>' +
         '<td>' + correo + '</td>' +
         '<td>' + telefono + '</td>' +
+        '<td>' + placa + '</td>' +
+        '<td>' + marca + '</td>' +
+        '<td>' + modelo + '</td>' +
+        '<td>' + kilometraje + '</td>' +
         '<td><i class="fas fa-edit size-fas"' +
         ' onclick = "editTask(' + '\'' + uid + '\'' + ',' + '\'' + nombre + '\'' + ' ,' + '\'' + apellido + '\'' + ' ,' + '\'' + correo + '\'' + ' ,' + '\'' + telefono + '\'' + ' ,' + '\'' + placa + '\'' + ' ,' + '\'' + marca + '\'' + ' ,' + '\'' + modelo + '\'' + ' ,' + '\'' + kilometraje + '\'' + ')">' +
         '</i></td>' +
@@ -226,6 +241,21 @@ function tablaVehiculos(uid, nombre, apellido, placa, marca, modelo, kilometraje
         '</tr>';
 };
 
+function tablaMantenimientos(uid, placa, tipoMantenimiento, observaciones, fechakilometraje, gastos) {
+
+    return '<tr>' +
+        '<td>' + uid + '</td>' +
+        '<td>' + placa + '</td>' +
+        '<td>' + tipoMantenimiento + '</td>' +
+        '<td>' + observaciones + '</td>' +
+        '<td>' + fechakilometraje + '</td>' +
+        '<td>' + gastos + '</td>' +
+        '<td>'+
+        '<a href=".././reportes/OrdenPagoRTV.pdf" download="ReporteMantenimiento" ><i class="fas fa-file-pdf" style="font-size:36px ;color:red"> </i></a> '+
+        '</td>' +
+        '</tr>';
+};
+
 function cargarClientes() {
     var task = firebase.database().ref("Persona/");
     task.on("child_added", function (data) {
@@ -235,6 +265,7 @@ function cargarClientes() {
     });
 
     cargarVehiculos();
+    cargarMantenimientos();
 };
 
 function cargarVehiculos() {
@@ -243,6 +274,15 @@ function cargarVehiculos() {
         var taskValue = data.val();
         var result = tablaVehiculos(taskValue.uid, taskValue.nombre, taskValue.apellido, taskValue.auto.placa, taskValue.auto.marca, taskValue.auto.modelo, taskValue.auto.kilometraje);
         innerHTML("tbodyVehiculos", result);
+    });
+};
+
+function cargarMantenimientos() {
+    var task = firebase.database().ref("Persona/");
+    task.on("child_added", function (data) {
+        var taskValue = data.val();
+        var result = tablaMantenimientos(taskValue.uid, taskValue.auto.placa, taskValue.mantenimiento.tipoMantenimiento, taskValue.mantenimiento.observaciones, taskValue.mantenimiento.fechakilometraje, taskValue.mantenimiento.gastos);
+        innerHTML("tbodyMantenimientos", result);
     });
 };
 
@@ -330,3 +370,24 @@ function list(array_list) {
     $(".box--oculto").removeClass('hidden');
 }
 
+function myFunction() {
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+  
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }

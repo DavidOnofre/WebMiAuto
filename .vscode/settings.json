@@ -1,2 +1,12 @@
 {
-}
+  "editor.fontFamily": "Courier New", // Familia de la fuente
+  "editor.fontLigatures": true, // Activa las ligaduras en las fuentes
+  "editor.fontSize": 12, // Tamaño de fuente de 16px
+  "editor.detectIndentation": false, // Desactiva la indentación automática
+  "editor.renderIndentGuides": false, // Desactiva las líneas de indentación
+  "editor.folding": false, // Elimina el espaciado
+  "editor.glyphMargin": false, // Elimina el margen izquierdo (Se usa principalmente para depurar)
+  "editor.cursorStyle": "line-thin", // Estilo del cursor: línea delgada
+  "editor.cursorBlinking": "blink", // Animación del cursor
+  "editor.hideCursorInOverviewRuler": true, // Oculta la marca del cursor en el editor
+  }

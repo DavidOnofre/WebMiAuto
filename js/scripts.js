@@ -146,12 +146,18 @@ function arrayJson(uid, nombre, apellido, correo, telefono, placa, marca, modelo
         apellido: apellido,
         correo: correo,
         telefono: telefono,
-        auto: {
-            placa: placa,
-            marca: marca,
-            modelo: modelo,
-            kilometraje: kilometraje
-        },
+        auto: [{
+                placa: placa,
+                marca: marca,
+                modelo: modelo,
+                kilometraje: kilometraje,
+                kilometrajeAceite: kilometraje,
+                kilometrajeGasolina: kilometraje,
+                kilometrajeLlantas: kilometraje,
+                kilometrajeBateria: kilometraje,
+                kilometrajeElectricidad: kilometraje
+            }
+        ],
         mantenimiento: {
             tipoMantenimiento: tipoMantenimiento,
             observaciones: observaciones,
@@ -176,7 +182,7 @@ function insertTask() {
     var kilometraje = getID("kilometraje");
 
     if (uid.length == 0 || nombre.length == 0 || apellido.length == 0 || correo.length == 0 || telefono.length == 0 || placa.length == 0 || marca.length == 0 || modelo.length == 0 || kilometraje.length == 0) {
-        alert("Campos vac&iacute;os");
+        alert("Campos vacíos");
     } else {
 
         var arrayData = arrayJson(uid, nombre, apellido, correo, telefono, placa, marca, modelo, kilometraje, "tipoMantenimiento", "observaciones", "fechakilometraje", "gastos");
@@ -193,11 +199,6 @@ function insertTask() {
         inputsTask("marca", "");
         inputsTask("modelo", "");
         inputsTask("kilometraje", "");
-
-        inputsTask("tipoMantenimiento", "");
-        inputsTask("observaciones", "");
-        inputsTask("fechakilometraje", "");
-        inputsTask("gastos", "");
 
     }
 
@@ -260,7 +261,7 @@ function cargarClientes() {
     var task = firebase.database().ref("Persona/");
     task.on("child_added", function (data) {
         var taskValue = data.val();
-        var result = tablaClientes(taskValue.uid, taskValue.nombre, taskValue.apellido, taskValue.correo, taskValue.telefono, taskValue.auto.placa, taskValue.auto.marca, taskValue.auto.modelo, taskValue.auto.kilometraje);
+        var result = tablaClientes(taskValue.uid, taskValue.nombre, taskValue.apellido, taskValue.correo, taskValue.telefono, taskValue.auto[0].placa, taskValue.auto[0].marca, taskValue.auto[0].modelo, taskValue.auto[0].kilometraje);
         innerHTML("tbodyClientes", result);
     });
 
@@ -272,7 +273,7 @@ function cargarVehiculos() {
     var task = firebase.database().ref("Persona/");
     task.on("child_added", function (data) {
         var taskValue = data.val();
-        var result = tablaVehiculos(taskValue.uid, taskValue.nombre, taskValue.apellido, taskValue.auto.placa, taskValue.auto.marca, taskValue.auto.modelo, taskValue.auto.kilometraje);
+        var result = tablaVehiculos(taskValue.uid, taskValue.nombre, taskValue.apellido, taskValue.auto[0].placa, taskValue.auto[0].marca, taskValue.auto[0].modelo, taskValue.auto[0].kilometraje);
         innerHTML("tbodyVehiculos", result);
     });
 };
@@ -281,7 +282,7 @@ function cargarMantenimientos() {
     var task = firebase.database().ref("Persona/");
     task.on("child_added", function (data) {
         var taskValue = data.val();
-        var result = tablaMantenimientos(taskValue.uid, taskValue.auto.placa, taskValue.mantenimiento.tipoMantenimiento, taskValue.mantenimiento.observaciones, taskValue.mantenimiento.fechakilometraje, taskValue.mantenimiento.gastos);
+        var result = tablaMantenimientos(taskValue.uid, taskValue.auto[0].placa, taskValue.mantenimiento.tipoMantenimiento, taskValue.mantenimiento.observaciones, taskValue.mantenimiento.fechakilometraje, taskValue.mantenimiento.gastos);
         innerHTML("tbodyMantenimientos", result);
     });
 };

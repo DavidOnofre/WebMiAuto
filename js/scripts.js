@@ -139,7 +139,7 @@ function inputsTask(uid, result) {
     return document.getElementById(uid).value = result;
 };
 
-function arrayJson(uid, nombre, apellido, correo, telefono, placa, marca, modelo, kilometraje, tipoMantenimiento, observaciones, fechakilometraje, gastos) {
+function arrayJson(uid, nombre, apellido, correo, telefono, placa, marca, modelo, kilometraje, tipoMantenimiento, observaciones, fechaKilometraje, gastos) {
     var data = {
         uid: uid,
         nombre: nombre,
@@ -161,7 +161,7 @@ function arrayJson(uid, nombre, apellido, correo, telefono, placa, marca, modelo
         mantenimiento: {
             tipoMantenimiento: tipoMantenimiento,
             observaciones: observaciones,
-            fechakilometraje: fechakilometraje,
+            fechaKilometraje: fechaKilometraje,
             gastos: gastos
         }
     };
@@ -242,14 +242,14 @@ function tablaVehiculos(uid, nombre, apellido, placa, marca, modelo, kilometraje
         '</tr>';
 };
 
-function tablaMantenimientos(uid, placa, tipoMantenimiento, observaciones, fechakilometraje, gastos) {
+function tablaMantenimientos(uid, placa, tipoMantenimiento, observaciones, fechaKilometraje, gastos) {
 
     return '<tr>' +
         '<td>' + uid + '</td>' +
         '<td>' + placa + '</td>' +
         '<td>' + tipoMantenimiento + '</td>' +
         '<td>' + observaciones + '</td>' +
-        '<td>' + fechakilometraje + '</td>' +
+        '<td>' + fechaKilometraje + '</td>' +
         '<td>' + gastos + '</td>' +
         '<td>' +
         '<a href=".././reportes/OrdenPagoRTV.pdf" download="ReporteMantenimiento" ><i class="fas fa-file-pdf" style="font-size:36px ;color:red"> </i></a> ' +
@@ -323,7 +323,7 @@ function cargarMantenimientos() {
             datosMantenimientos.auto[0].placa,
             datosMantenimientos.mantenimiento.tipoMantenimiento,
             datosMantenimientos.mantenimiento.observaciones,
-            datosMantenimientos.mantenimiento.fechakilometraje,
+            datosMantenimientos.mantenimiento.fechaKilometraje,
             datosMantenimientos.mantenimiento.gastos);
 
         innerHTML("tbodyMantenimientos", result);

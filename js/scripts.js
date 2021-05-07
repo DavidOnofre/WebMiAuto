@@ -151,11 +151,11 @@ function arrayJson(uid, nombre, apellido, correo, telefono, placa, marca, modelo
             marca: marca,
             modelo: modelo,
             kilometraje: kilometraje,
-            kilometrajeAceite: 0,
-            kilometrajeGasolina: 0,
-            kilometrajeLlantas: 0,
-            kilometrajeBateria: 0,
-            kilometrajeElectricidad: 0
+            kilometrajeAceite: "0",
+            kilometrajeGasolina: "0",
+            kilometrajeLlantas: "0",
+            kilometrajeBateria: "0",
+            kilometrajeElectricidad: "0"
         }
         ],
         mantenimiento: [{

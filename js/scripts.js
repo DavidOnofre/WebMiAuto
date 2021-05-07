@@ -151,19 +151,19 @@ function arrayJson(uid, nombre, apellido, correo, telefono, placa, marca, modelo
             marca: marca,
             modelo: modelo,
             kilometraje: kilometraje,
-            kilometrajeAceite: kilometraje,
-            kilometrajeGasolina: kilometraje,
-            kilometrajeLlantas: kilometraje,
-            kilometrajeBateria: kilometraje,
-            kilometrajeElectricidad: kilometraje
+            kilometrajeAceite: 0,
+            kilometrajeGasolina: 0,
+            kilometrajeLlantas: 0,
+            kilometrajeBateria: 0,
+            kilometrajeElectricidad: 0
         }
         ],
-        mantenimiento: {
+        mantenimiento: [{
             tipoMantenimiento: tipoMantenimiento,
             observaciones: observaciones,
             fechaKilometraje: fechaKilometraje,
             gastos: gastos
-        }
+        }]
     };
     return data;
 };
@@ -321,10 +321,10 @@ function cargarMantenimientos() {
         var result = tablaMantenimientos(
             datosMantenimientos.uid,
             datosMantenimientos.auto[0].placa,
-            datosMantenimientos.mantenimiento.tipoMantenimiento,
-            datosMantenimientos.mantenimiento.observaciones,
-            datosMantenimientos.mantenimiento.fechaKilometraje,
-            datosMantenimientos.mantenimiento.gastos);
+            datosMantenimientos.mantenimiento[0].tipoMantenimiento,
+            datosMantenimientos.mantenimiento[0].observaciones,
+            datosMantenimientos.mantenimiento[0].fechaKilometraje,
+            datosMantenimientos.mantenimiento[0].gastos);
 
         innerHTML("tbodyMantenimientos", result);
     });

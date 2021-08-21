@@ -91,6 +91,7 @@ function observador() {
             console.log('Existe usuario activo');
             console.log('*************************');
             console.log(user.emailVerified);
+            console.log(user);
             console.log('*************************');
             aparece(user);
 

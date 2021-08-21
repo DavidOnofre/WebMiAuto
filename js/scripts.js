@@ -252,7 +252,8 @@ function tablaMantenimientos(uid, placa, tipoMantenimiento, observaciones, fecha
         '<td>' + fechaKilometraje + '</td>' +
         '<td>' + gastos + '</td>' +
         '<td>' +
-        '<a href=".././reportes/OrdenPagoRTV.pdf" download="ReporteMantenimiento" ><i class="fas fa-file-pdf" style="font-size:36px ;color:red"> </i></a> ' +
+        '<button '+
+        'onclick = "generarPdf('+')">'  +"PDF" +'</button>' +
         '</td>' +
         '</tr>';
 };
@@ -318,16 +319,40 @@ function cargarMantenimientos() {
     
     task.on("child_added", function (data) {
         var datosMantenimientos = data.val();
-        var result = tablaMantenimientos(
-            datosMantenimientos.uid,
-            datosMantenimientos.auto[0].placa,
-            datosMantenimientos.mantenimiento[0].tipoMantenimiento,
-            datosMantenimientos.mantenimiento[0].observaciones,
-            datosMantenimientos.mantenimiento[0].fechaKilometraje,
-            datosMantenimientos.mantenimiento[0].gastos);
+		
+      
+	
+	for (let i = 0; i < datosMantenimientos.mantenimiento.length; i++) {
 
-        innerHTML("tbodyMantenimientos", result);
-    });
+			if (i == 0) {
+				var result = tablaMantenimientos(
+					datosMantenimientos.uid,
+                    datosMantenimientos.auto[0].placa,
+					datosMantenimientos.mantenimiento[i].tipoMantenimiento,
+					datosMantenimientos.mantenimiento[i].observaciones,
+					datosMantenimientos.mantenimiento[i].fechaKilometraje,
+					datosMantenimientos.mantenimiento[i].gastos);
+				innerHTML("tbodyMantenimientos", result);
+
+			} else {
+				var result = tablaMantenimientos(
+					"",
+					"",
+					datosMantenimientos.mantenimiento[i].tipoMantenimiento,
+					datosMantenimientos.mantenimiento[i].observaciones,
+					datosMantenimientos.mantenimiento[i].fechaKilometraje,
+					datosMantenimientos.mantenimiento[i].gastos);
+				innerHTML("tbodyMantenimientos", result);
+			}
+		}
+	
+	
+	
+	
+	});
+
+
+
 };
 
 function editTask(uid, nombre, apellido, correo, telefono, placa, marca, modelo, kilometraje) {
@@ -438,4 +463,10 @@ function myFunction() {
             tr[i].style.display = "none";
         }
     }
+}
+
+
+function generarPdf(){
+   const element = document.getElementById("myTable");
+  html2pdf().from(element).save();
 }
